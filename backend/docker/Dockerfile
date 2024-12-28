@@ -1,0 +1,17 @@
+# バックエンドのベースイメージを設定
+FROM ruby:3.2.1
+
+# 環境変数を設定
+ENV LANG C.UTF-8 \
+    TZ="Asia/Tokyo" \
+    RAILS_LOG_TO_STDOUT="1"
+
+# アプリケーションの依存関係をインストール
+RUN apt-get update -qq && apt-get install -y
+
+# ビルドの実行
+WORKDIR /app/backend
+COPY Gemfile .
+COPY Gemfile.lock .
+RUN bundle config set force_ruby_platform true && bundle install
+COPY . .

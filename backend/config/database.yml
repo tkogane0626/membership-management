@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: postgres
+  username: pguser
+  password: pgpassword
+
+development:
+  <<: *default
+  database: development
+
+test:
+  <<: *default
+  database: test
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
+  database: production
+  username: pguser
+  password: pgpassword
