@@ -1,0 +1,2 @@
+class Dojang < ApplicationRecord
+end

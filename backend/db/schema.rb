@@ -10,8 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 0) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_28_161313) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
+  create_table "dojangs", comment: "道場の情報を管理するテーブル", force: :cascade do |t|
+    t.string "name", null: false, comment: "道場名"
+    t.string "name_kana", null: false, comment: "道場名カナ"
+    t.string "person_in_charge", comment: "道場責任者"
+    t.boolean "status_flg", default: true, null: false, comment: "ステータスフラグ"
+    t.integer "created_by", comment: "作成ユーザーID"
+    t.integer "updated_by", comment: "更新ユーザーID"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 end
