@@ -5,7 +5,6 @@ AllCops:
     - "bin/*"
     - "config/environments/*"
     - "config/*"
-    - "db/migrate/*"
     - "db/schema.rb"
   NewCops: enable
 
