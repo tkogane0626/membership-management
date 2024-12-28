@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_28_165350) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_28_170636) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -44,4 +44,35 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_28_165350) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "memberships", comment: "会員の情報を管理するテーブル", force: :cascade do |t|
+    t.bigint "dojang_id", null: false, comment: "道場ID"
+    t.bigint "course_id", null: false, comment: "コースID"
+    t.bigint "gender_id", null: false, comment: "ジェンダーID"
+    t.date "membership_start_date", comment: "入会年月日"
+    t.date "membership_end_date", comment: "退会年月日"
+    t.string "name", null: false, comment: "名前"
+    t.string "name_kana", null: false, comment: "名前カナ"
+    t.string "abbreviation", comment: "略称"
+    t.date "date_of_birth", comment: "生年月日"
+    t.string "postal_code", comment: "郵便番号"
+    t.string "address1", comment: "住所1"
+    t.string "address2", comment: "住所2"
+    t.string "telephone_number", comment: "電話番号"
+    t.string "occupation", comment: "職業"
+    t.string "parents", comment: "保護者"
+    t.string "parents_telephone_number", comment: "保護者電話番号"
+    t.boolean "status_flg", default: true, null: false, comment: "ステータスフラグ"
+    t.integer "created_by", comment: "作成ユーザーID"
+    t.integer "updated_by", comment: "更新ユーザーID"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_memberships_on_course_id"
+    t.index ["dojang_id"], name: "index_memberships_on_dojang_id"
+    t.index ["gender_id"], name: "index_memberships_on_gender_id"
+  end
+
+  add_foreign_key "memberships", "courses"
+  add_foreign_key "memberships", "dojangs"
+  add_foreign_key "memberships", "genders"
 end
