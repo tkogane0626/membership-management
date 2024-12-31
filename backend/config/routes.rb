@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :memberships, only: :index
+      resources :memberships, only:[:index] do
+        post 'delete_membership', on: :member
+      end
     end
   end
 end
