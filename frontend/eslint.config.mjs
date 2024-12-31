@@ -48,7 +48,8 @@ export default [
           selector: "default",
           format: [
             "camelCase",
-            "PascalCase"
+            "PascalCase",
+            "snake_case"
           ]
         }
       ],
