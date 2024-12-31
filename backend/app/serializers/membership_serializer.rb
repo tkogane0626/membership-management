@@ -14,6 +14,7 @@ class MembershipSerializer < ActiveModel::Serializer
              :address2,
              :telephone_number,
              :parents,
+             :parents_telephone_number,
              :occupation
 
   def dojang

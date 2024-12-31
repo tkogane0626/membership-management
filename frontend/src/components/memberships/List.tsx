@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import MembershipEditModal from '../../components/memberships/EditModal';
 import MembershipDeleteModal from '../../components/memberships/DeleteModal';
-import { fetchMembership, deleteMembership } from '../../api/axios';
+import { fetchMembership, updateMembership, deleteMembership } from '../../api/axios';
+import { columns } from '../../utils/membershipColumns';
 import type { Membership } from '../../types/membership';
 
-interface MembershipListProps {
-  memberships: Membership[];
-}
-
-const MembershipList: React.FC<MembershipListProps> = () => {
+const List: React.FC = () => {
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState<Membership | null>(null);
   const [membershipsData, setMembershipsData] = useState<Membership[]>([]);
@@ -17,49 +16,86 @@ const MembershipList: React.FC<MembershipListProps> = () => {
     const loadMemberships = async (): Promise<void> => {
       try {
         const data = await fetchMembership();
+
         setMembershipsData(data);
       } catch (error) {
-        console.log('error', error);
+        console.log('Error fetching memberships', error);
       }
     };
     loadMemberships();
   }, []);
 
+  const refreshMemberships = async (): Promise<void> => {
+    try {
+      const updatedMemberships = await fetchMembership();
+
+      setMembershipsData(updatedMemberships);
+    } catch (error) {
+      console.log('Error refreshing memberships', error);
+    }
+  };
+
+  const handleUpdate = async (member: Membership): Promise<void> => {
+    try {
+      await updateMembership(member.id, member);
+      await refreshMemberships();
+
+      setShowEditModal(false);
+    } catch (error) {
+      console.log('Error updating membership', error);
+
+      setShowEditModal(false);
+    }
+  };
+
   const handleDelete = async (member: Membership): Promise<void> => {
     try {
       await deleteMembership(member.id);
-      const updatedMemberships = await fetchMembership();
-      setMembershipsData(updatedMemberships);
+      await refreshMemberships();
+
       setShowDeleteModal(false);
     } catch (error) {
-      console.log('error', error);
+      console.log('Error deleting membership', error);
+
       setShowDeleteModal(false);
     }
   };
 
-  const onDelete = (member: Membership): void => {
+  const handleMemberAction = (action: 'delete' | 'edit', member: Membership): void => {
     setSelectedMember(member);
-    setShowDeleteModal(true);
+    if (action === 'edit') setShowEditModal(true);
+    if (action === 'delete') setShowDeleteModal(true);
   };
 
-  const columns = [
-    { label: 'No', key: 'id' },
-    { label: '名前', key: 'name' },
-    { label: 'フリガナ', key: 'name_kana' },
-    { label: '入会日', key: 'membership_start_date' },
-    { label: '退会日', key: 'membership_end_date' },
-    { label: '道場', key: 'dojang' },
-    { label: 'コース', key: 'course' },
-    { label: '略称', key: 'abbreviation' },
-    { label: '性別', key: 'gender' },
-    { label: '生年月日', key: 'date_of_birth' },
-    { label: '郵便番号', key: 'postal_code' },
-    { label: '住所1', key: 'address1' },
-    { label: '住所2', key: 'address2' },
-    { label: 'TEL', key: 'telephone_number' },
-    { label: '保護者名', key: 'parents' },
-    { label: '職業', key: 'occupation' },
-  ];
+  const handleChange = (key: keyof Membership, value:  number | string): void => {
+    if (selectedMember) {
+      setSelectedMember(prev => (prev ? { ...prev, [key]: value } : null));
+    }
+  };
+
+  const handleSave = async (): Promise<void> => {
+    if (selectedMember) {
+      const MISSING_FIELDS_LIMIT = 0;
+      const missingFields: string[] = [];
+
+      if (!selectedMember.name) missingFields.push('名前');
+      if (!selectedMember.name_kana) missingFields.push('フリガナ');
+      if (!selectedMember.dojang) missingFields.push('道場');
+      if (!selectedMember.course) missingFields.push('コース');
+      if (!selectedMember.gender) missingFields.push('性別');
+      if (!selectedMember.address1) missingFields.push('住所1');
+
+      if (!selectedMember.telephone_number && !selectedMember.parents_telephone_number) {
+        missingFields.push('電話番号または保護者電話番号');
+      }
+
+      if (missingFields.length > MISSING_FIELDS_LIMIT) {
+        alert(`未入力の項目があります: ${missingFields.join(', ')}`);
+      } else {
+        await handleUpdate(selectedMember);
+      }
+    }
+  };
 
   return (
     <div className="table-container">
@@ -81,10 +117,8 @@ const MembershipList: React.FC<MembershipListProps> = () => {
                 ))}
                 <td>
                   <div className="operation-buttons">
-                    <Button variant="warning">Edit</Button>
-                    <Button variant="danger" onClick={() => onDelete(membership)}>
-                      Delete
-                    </Button>
+                    <Button variant="warning" onClick={() => handleMemberAction('edit', membership)}>Edit</Button>
+                    <Button variant="danger" onClick={() => handleMemberAction('delete', membership)}>Delete</Button>
                   </div>
                 </td>
               </tr>
@@ -92,6 +126,16 @@ const MembershipList: React.FC<MembershipListProps> = () => {
           </tbody>
         </table>
       </div>
+
+      {selectedMember && (
+        <MembershipEditModal
+          showModal={showEditModal}
+          selectedMember={selectedMember}
+          handleChange={handleChange}
+          handleSave={handleSave}
+          handleClose={() => setShowEditModal(false)}
+        />
+      )}
 
       {selectedMember && (
         <MembershipDeleteModal
@@ -105,4 +149,4 @@ const MembershipList: React.FC<MembershipListProps> = () => {
   );
 };
 
-export default MembershipList;
+export default List;
