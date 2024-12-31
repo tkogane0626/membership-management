@@ -49,7 +49,8 @@ export default [
           format: [
             "camelCase",
             "PascalCase",
-            "snake_case"
+            "snake_case",
+            "UPPER_CASE"
           ]
         }
       ],
