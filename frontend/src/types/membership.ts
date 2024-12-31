@@ -6,7 +6,7 @@ export interface Membership {
   membership_end_date: string | null;
   dojang: string;
   course: string;
-  abbreviaion: string;
+  abbreviation: string;
   gender: string;
   date_of_birth: string;
   postal_code: string;
@@ -14,6 +14,6 @@ export interface Membership {
   address2: string;
   telephone_number: string;
   parents: string;
+  parents_telephone_number: string;
   occupation: string;
-  status_flg: boolean;
 }
