@@ -1,20 +1,19 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+import { Modal, Button } from 'react-bootstrap';
 import type { Membership } from '../../types/membership';
 
 interface DeleteModalProps {
   showModal: boolean;
-  handleClose: () => void;
   selectedMember: Membership;
   handleDelete: (member: Membership) => Promise<void>;
+  handleClose: () => void;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
   showModal,
-  handleClose,
   selectedMember,
   handleDelete,
+  handleClose,
 }) => {
   return (
     <Modal show={showModal} onHide={handleClose}>
@@ -29,11 +28,11 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
         </ul>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          キャンセル
-        </Button>
         <Button variant="danger" onClick={() => handleDelete(selectedMember)}>
           削除
+        </Button>
+        <Button variant="secondary" onClick={handleClose}>
+          キャンセル
         </Button>
       </Modal.Footer>
     </Modal>
