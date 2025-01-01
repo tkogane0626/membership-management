@@ -1,9 +1,5 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import type { Membership } from '../../types/membership';
 
 interface EditModalProps {
@@ -28,23 +24,24 @@ const EditModal: React.FC<EditModalProps> = ({
     <Modal.Body>
       <Form>
         <Row key="id" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>会員No</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.id || ''}
-              onChange={(e) => handleChange('id', e.target.value)}
+              readOnly
+              disabled
             />
           </Col>
         </Row>
 
         <Row key="name" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>名前</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.name || ''}
@@ -54,10 +51,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="name_kana" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>フリガナ</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.name_kana || ''}
@@ -67,10 +64,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="membership_start_date" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>入会日</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.membership_start_date || ''}
@@ -80,10 +77,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="membership_end_date" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>退会日</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.membership_end_date || ''}
@@ -93,10 +90,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="dojang" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>道場</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               as="select"
               value={selectedMember.dojang || ''}
@@ -110,10 +107,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="course" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>コース</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               as="select"
               value={selectedMember.course || ''}
@@ -128,10 +125,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="abbreviation" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>略称</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.abbreviation || ''}
@@ -141,28 +138,28 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="gender" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>性別</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               as="select"
               value={selectedMember.gender || ''}
               onChange={(e) => handleChange('gender', e.target.value)}
             >
               <option value="">選択してください</option>
-              <option value="1">少年部</option>
-              <option value="2">青年部</option>
-              <option value="3">準会員</option>
+              <option value="1">男</option>
+              <option value="2">女</option>
+              <option value="3">未選択</option>
             </Form.Control>
           </Col>
         </Row>
 
         <Row key="date_of_birth" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>生年月日</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.date_of_birth || ''}
@@ -172,10 +169,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="postal_code" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>郵便番号</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.postal_code || ''}
@@ -185,10 +182,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="address1" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>住所1</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.address1 || ''}
@@ -198,10 +195,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="address2" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>住所2</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.address2 || ''}
@@ -211,10 +208,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="telephone_number" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>電話番号</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.telephone_number || ''}
@@ -224,10 +221,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="parents" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>保護者名</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.parents || ''}
@@ -237,10 +234,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="parents_telephone_number" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>保護者電話番号</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.parents_telephone_number || ''}
@@ -250,10 +247,10 @@ const EditModal: React.FC<EditModalProps> = ({
         </Row>
 
         <Row key="occupation" className="mb-3 align-items-center">
-          <Col md={2} className="text-end">
+          <Col md={3} className="text-end">
             <Form.Label>職業</Form.Label>
           </Col>
-          <Col md={10}>
+          <Col md={9}>
             <Form.Control
               type="text"
               value={selectedMember.occupation || ''}

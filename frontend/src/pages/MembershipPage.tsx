@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchMembership } from '../api/axios';
 import MembershipList from '../components/memberships/List';
+import { fetchMembership } from '../api/axios';
 import type { Membership } from '../types/membership';
 
 const MembershipPage: React.FC = () => {
@@ -17,7 +17,6 @@ const MembershipPage: React.FC = () => {
 
   return (
     <div>
-      <h1>会員情報</h1>
       <MembershipList
         memberships={memberships}
       />

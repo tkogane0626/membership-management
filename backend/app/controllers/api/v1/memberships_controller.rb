@@ -48,6 +48,7 @@ class Api::V1::MembershipsController < ApplicationController
       :address2,
       :telephone_number,
       :parents,
+      :parents_telephone_number,
       :occupation
     )
   end

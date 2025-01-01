@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
+import { Button } from 'react-bootstrap';
 import MembershipEditModal from '../../components/memberships/EditModal';
 import MembershipDeleteModal from '../../components/memberships/DeleteModal';
 import { fetchMembership, updateMembership, deleteMembership } from '../../api/axios';
 import { columns } from '../../utils/membershipColumns';
 import type { Membership } from '../../types/membership';
 
-const List: React.FC = () => {
+interface ListProps {
+  memberships: Membership[];
+}
+
+const List: React.FC<ListProps> = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState<Membership | null>(null);
@@ -22,6 +26,7 @@ const List: React.FC = () => {
         console.log('Error fetching memberships', error);
       }
     };
+
     loadMemberships();
   }, []);
 
@@ -83,7 +88,10 @@ const List: React.FC = () => {
       if (!selectedMember.dojang) missingFields.push('道場');
       if (!selectedMember.course) missingFields.push('コース');
       if (!selectedMember.gender) missingFields.push('性別');
-      if (!selectedMember.address1) missingFields.push('住所1');
+
+      if (!selectedMember.address1 && !selectedMember.address2) {
+        missingFields.push('住所1または住所2');
+      }
 
       if (!selectedMember.telephone_number && !selectedMember.parents_telephone_number) {
         missingFields.push('電話番号または保護者電話番号');
@@ -140,9 +148,9 @@ const List: React.FC = () => {
       {selectedMember && (
         <MembershipDeleteModal
           showModal={showDeleteModal}
-          handleClose={() => setShowDeleteModal(false)}
           selectedMember={selectedMember}
           handleDelete={handleDelete}
+          handleClose={() => setShowDeleteModal(false)}
         />
       )}
     </div>
